@@ -1,22 +1,12 @@
-import React, { Fragment, useContext } from 'react';
-import WithContext from '../utils/WithContext';
+import React, { Fragment } from 'react';
 
 import EntityList from './EntityList';
 
-function PantheonList({ state: { entities }, onCheck, onExpand }) {
-    return <EntityList entities={entities} onCheck={onCheck} onExpand={onExpand}>
-    </EntityList>
-}
-
-export default function Pantheon() {
+export default function Pantheon({ state: { entities }, onCheck, onExpand }) {
     return <Fragment>
         <div data-testid="pantheon"></div>
-        <WithContext>
-            {(values) => (
-                <PantheonList  {...values}>
-                </PantheonList>
-            )}
-        </WithContext>
+        <EntityList entities={entities} onCheck={onCheck} onExpand={onExpand}>
+        </EntityList>
     </Fragment>
 }
 

@@ -22,6 +22,23 @@ describe('App', () => {
       }
     }
   };
+  const context_values = {
+    onCheck: () => { },
+    onExpand: () => { },
+    state: {
+      entities:
+        [
+          entity
+        ]
+    }
+  }
+
+
+  const props = {
+    onCheck: () => { },
+    onExpand: () => { },
+    entities: context_values.state.entities
+  }
 
   let container;
   beforeEach(() => {
@@ -39,9 +56,7 @@ describe('App', () => {
   it('renders the pantheon', () => {
     act(() => {
       render(
-        <PantheonContext.Provider value="">
-          <Pantheon />
-        </PantheonContext.Provider>
+        <Pantheon {...context_values} />
       )
     });
 
@@ -51,39 +66,26 @@ describe('App', () => {
   it('renders the entity list', () => {
     act(() => {
       render((
-        <PantheonContext.Provider value="">
-          <Pantheon />
-        </PantheonContext.Provider>
+        <Pantheon {...context_values} />
       ));
     });
-    expect(screen.queryByTestId("entity-list")).toBeInTheDocument();
+    expect(screen.queryByTestId("entity-list-egyptian")).toBeInTheDocument();
   });
 
   it('renders the entity name', () => {
     act(() => {
       render((
-        <EntityList
-          onCheck={() => { }}
-          onExpand={() => { }}
-          entities={[
-            entity
-          ]} />
+        <EntityList  {...props} />
       ));
     });
-    expect(container.textContent).toBe(entity.name);
+    expect(container.textContent).toBe("Richard Paul M.");
   });
 
 
   it('renders the entity id', () => {
     act(() => {
       render((
-        <EntityList
-          onCheck={() => { }}
-          onExpand={() => { }}
-          entities={[
-            entity
-          ]}
-        />
+        <EntityList   {...props} />
       ));
     });
     expect(screen.queryByTestId(entity.id)).toBeInTheDocument();
