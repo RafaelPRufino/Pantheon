@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 
 import ReactDOM from 'react-dom'
 
@@ -10,13 +10,13 @@ import EntityList from '../pantheon/EntityList';
 
 describe('App', () => {
   const entity = {
-    id: 'Richard Paul M.',
+    id: '2469bdab-23b5-4cb8-90c9-c609a49410b0',
     getEntity: () => {
       return {
-        id: 'Richard Paul M.',
+        id: '2469bdab-23b5-4cb8-90c9-c609a49410b0',
         name: "Richard Paul M.",
         checked: false,
-        indeterminate: false,
+        indeterminate: true,
         expanded: true,
         children: []
       }
@@ -29,6 +29,8 @@ describe('App', () => {
     document.body.appendChild(container);
   });
 
+  const render = (component) => ReactDOM.render(component, container)
+
   afterEach(() => {
     document.body.removeChild(container);
     container = null;
@@ -36,11 +38,11 @@ describe('App', () => {
 
   it('renders the pantheon', () => {
     act(() => {
-      ReactDOM.render((
+      render(
         <PantheonContext.Provider value="">
           <Pantheon />
         </PantheonContext.Provider>
-      ), container);
+      )
     });
 
     expect(screen.queryByTestId("pantheon")).toBeInTheDocument();
@@ -48,36 +50,41 @@ describe('App', () => {
 
   it('renders the entity list', () => {
     act(() => {
-      ReactDOM.render((
+      render((
         <PantheonContext.Provider value="">
           <Pantheon />
         </PantheonContext.Provider>
-      ), container);
+      ));
     });
     expect(screen.queryByTestId("entity-list")).toBeInTheDocument();
   });
 
   it('renders the entity name', () => {
     act(() => {
-      ReactDOM.render((
-        <EntityList onCheck={() => { }}
-          onExpand={() => { }} entities={[
+      render((
+        <EntityList
+          onCheck={() => { }}
+          onExpand={() => { }}
+          entities={[
             entity
           ]} />
-      ), container);
+      ));
     });
-    expect(container.textContent).toBe(entity.id);
+    expect(container.textContent).toBe(entity.name);
   });
 
 
   it('renders the entity id', () => {
     act(() => {
-      ReactDOM.render((
-        <EntityList onCheck={() => { }}
-          onExpand={() => { }} entities={[
+      render((
+        <EntityList
+          onCheck={() => { }}
+          onExpand={() => { }}
+          entities={[
             entity
-          ]} />
-      ), container);
+          ]}
+        />
+      ));
     });
     expect(screen.queryByTestId(entity.id)).toBeInTheDocument();
   });
